@@ -1,3 +1,8 @@
+--Excluir Banco de dados se ja existir
+
+DROP DATABASE IF EXISTS uvv;
+
+
 --Excluir usuario se ja existir
 
 DROP USER IF EXISTS arthurromani;
@@ -12,9 +17,6 @@ CREATEROLE
 REPLICATION
 ENCRYPTED PASSWORD 'arthur';
 
---Excluir Banco de dados se ja existir
-
-DROP DATABASE IF EXISTS uvv;
 
 --Criando o banco de dados
 
