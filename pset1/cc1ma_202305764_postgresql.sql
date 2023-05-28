@@ -26,9 +26,9 @@ CREATE DATABASE uvv WITH
 		ALLOW_CONNECTIONS = 'TRUE'
 		TEMPLATE          = 'template0';
 	
-COMMENT ON DATABASE uvv IS 'Banco de dados uvv'
+COMMENT ON DATABASE uvv IS 'Banco de dados uvv';
 
-GRANT ALL ON DATABASE uvv
+GRANT ALL ON DATABASE uvv;
 
 --Entrando no usuario
 
@@ -44,7 +44,7 @@ DROP SCHEMA IF EXISTS lojas;
 
 CREATE SCHEMA lojas AUTHORIZATION arthurromani;
 SHOW SEARCH_PATH;
-SELECT CURRENT_SCHEMA()
+SELECT CURRENT_SCHEMA();
 SET SEARCH_PATH TO lojas, "\$user", public;
 
 --Criando tabela produtos e seus comentarios
@@ -252,3 +252,25 @@ REFERENCES lojas.pedidos (pedido_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
+
+--Crinado as restricoes
+
+ALTER TABLE lojas.pedidos
+ADD CONSTRAINT check_de_pedidos
+CHECK (status IN ('CANCELADO', 'COMPLETO', 'ABERTO', 'PAGO', 'REEMBOLSADO', 'ENVIADO'));
+
+ALTER TABLE lojas.envios
+ADD CONSTRAINT check_status_envios
+CHECK (status IN ('CRIADO', 'ENVIADO', 'TRANSITO', 'ENTREGUE'));
+
+ALTER TABLE lojas.lojas
+ADD CONSTRAINT check_do_endereco
+CHECK (endereco_web IS NOT NULL OR endereco_fisico IS NOT NULL);
+
+ALTER TABLE lojas.produtos
+ADD CONSTRAINT check_do_preco
+CHECK (preco_unitario >= 0);
+
+ALTER TABLE lojas.estoques
+ADD CONSTRAINT check_de_quantidade
+CHECK (quantidade >= 0);
