@@ -9,6 +9,6 @@ Professor: Abrantes Araujo Silva Filho
 
 Problem Set(PSET) é uma lista de questões de nivel dificil, feitas para testar a compreensão da materia e seu conteúdo e aprenda a se familiarizar com os programs instituidos pelo professor.
 
-<h2>Processo de desnvolvimeto</h2>
+<h2>Processo de desenvolvimento</h2>
 
 Nesse PSET, o professor Abrantes solicitou a criação de um script SQL a partir de uma imagem de um banco de dados e posteriormente responder as questões discursivas relacionadas ao projeto.
