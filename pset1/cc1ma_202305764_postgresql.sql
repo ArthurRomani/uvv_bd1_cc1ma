@@ -29,7 +29,7 @@ CREATE DATABASE uvv WITH
 	
 COMMENT ON DATABASE uvv IS 'Banco de dados uvv';
 
-GRANT ALL ON DATABASE uvv;
+GRANT ALL ON DATABASE uvv TO arthurromani;
 
 --Entrando no usuario
 
