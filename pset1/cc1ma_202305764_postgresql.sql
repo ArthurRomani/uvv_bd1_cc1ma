@@ -11,10 +11,9 @@ DROP USER IF EXISTS arthurromani;
 
 CREATE user arthurromani WITH
 SUPERUSER
-INHERIT
 CREATEDB
 CREATEROLE
-REPLICATION
+LOGIN
 ENCRYPTED PASSWORD 'arthur';
 
 
@@ -47,7 +46,9 @@ DROP SCHEMA IF EXISTS lojas;
 CREATE SCHEMA lojas AUTHORIZATION arthurromani;
 SHOW SEARCH_PATH;
 SELECT CURRENT_SCHEMA();
-SET SEARCH_PATH TO lojas, "\$user", public;
+
+ALTER USER arthurromani
+SET SEARCH_PATH TO lojas, "$user", public;
 
 --Criando tabela produtos e seus comentarios
 
