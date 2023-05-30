@@ -13,23 +13,23 @@ CREATE user arthurromani WITH
 SUPERUSER
 CREATEDB
 CREATEROLE
-LOGIN
 ENCRYPTED PASSWORD 'arthur';
 
 
 --Criando o banco de dados
 
 CREATE DATABASE uvv WITH 
-		OWNER             = arthurromani
-		ENCODING          = 'UTF8'
-		LC_COLLATE        = 'pt_BR.UTF-8'
-		LC_TYPE           = 'pt_BR.UTF-8'
-		ALLOW_CONNECTIONS = 'TRUE'
-		TEMPLATE          = 'template0';
+	OWNER = arthurromani
+	TEMPLATE = template0
+	ENCODING = 'UTF8'
+	LC_COLLATE = 'pt_BR.UTF-8'
+	LC_CTYPE = 'pt_BR.UTF-8'
+	ALLOW_CONNECTIONS = true;
 	
 COMMENT ON DATABASE uvv IS 'Banco de dados uvv';
 
-GRANT ALL ON DATABASE uvv TO arthurromani;
+ALTER USER postgres
+SET SEARCH_PATH TO lojas,"$user",public;
 
 --Entrando no usuario
 
@@ -62,7 +62,7 @@ CREATE TABLE lojas.produtos (
                 imagem_arquivo VARCHAR(512),
                 imagem_charset VARCHAR(512),
                 imagem_ultima_atualizacao DATE,
-                CONSTRAINT produto_id PRIMARY KEY (produto_id)
+                CONSTRAINT pk_produtos PRIMARY KEY (produto_id)
 );
 COMMENT ON TABLE lojas.produtos IS 'tabela sobre os produtos';
 COMMENT ON COLUMN lojas.produtos.produto_id IS 'coluna para armazenar dados sobre o produto_id';
@@ -163,7 +163,7 @@ CREATE TABLE lojas.pedidos (
                 cliente_id NUMERIC(38) NOT NULL,
                 status VARCHAR(15) NOT NULL,
                 loja_id NUMERIC(38) NOT NULL,
-                CONSTRAINT pedido_id PRIMARY KEY (pedido_id)
+                CONSTRAINT pk_pedidos PRIMARY KEY (pedido_id)
 );
 COMMENT ON TABLE lojas.pedidos IS 'Tabela sobre os pedidos';
 COMMENT ON COLUMN lojas.pedidos.pedido_id IS 'coluna para armazenar o pedido_id';
@@ -180,8 +180,8 @@ CREATE TABLE lojas.pedidos_itens (
                 numero_da_linha NUMERIC(38) NOT NULL,
                 preco_unitario NUMERIC(10,2) NOT NULL,
                 quantidade NUMERIC(38) NOT NULL,
-                envio_id NUMERIC(38) NOT NULL,
-                CONSTRAINT pedido_id PRIMARY KEY (pedido_id, produto_id)
+                envio_id NUMERIC(38),
+                CONSTRAINT pk_pedidos_itens PRIMARY KEY (pedido_id, produto_id)
 );
 COMMENT ON TABLE lojas.pedidos_itens IS 'Tabela sobre os pedidos_itens';
 COMMENT ON COLUMN lojas.pedidos_itens.pedido_id IS 'coluna para armazenar dados sobre o pedido_id';
@@ -277,3 +277,13 @@ CHECK (preco_unitario >= 0);
 ALTER TABLE lojas.estoques
 ADD CONSTRAINT check_de_quantidade
 CHECK (quantidade >= 0);
+
+ALTER TABLE lojas.pedidos_itens 
+ADD CONSTRAINT check_preco_positivo
+CHECK (quantidade >=0);
+
+ALTER TABLE lojas.pedidos_itens
+ADD CONSTRAINT preco_positivo_check
+CHECK (preco_unitario >=0);
+
+
