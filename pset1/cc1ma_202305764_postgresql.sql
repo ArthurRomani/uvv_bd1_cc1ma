@@ -39,16 +39,16 @@ SET ROLE arthurromani;
 
 --Excluir SCHEMA se ja existir
 
-DROP SCHEMA IF EXISTS lojas;
+
 
 --Criando o SCHEMA lojas
 
 CREATE SCHEMA lojas AUTHORIZATION arthurromani;
-SHOW SEARCH_PATH;
-SELECT CURRENT_SCHEMA();
 
+SET SEARCH_PATH TO lojas, "$user", public;
 ALTER USER arthurromani
 SET SEARCH_PATH TO lojas, "$user", public;
+
 
 --Criando tabela produtos e seus comentarios
 
